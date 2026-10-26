@@ -1,0 +1,45 @@
+# Data-layer configuration. Everything that affects which data we use lives here,
+# so a snapshot can be reproduced from this file + the snapshot manifest.
+
+# Prices are fetched ONCE up to a fixed as_of date and then frozen as a snapshot.
+# Never use "today": Yahoo data changes, and the paper must be reproducible.
+start_date: "2016-01-01"
+as_of_date: "2026-09-30"
+auto_adjust: true          # split/dividend adjusted prices (recorded in the manifest)
+snapshot_name: "nse_v1"    # snapshots are written to data/snapshots/<snapshot_name>/
+
+# Quality gate thresholds (see src/credibility/data/quality.py)
+quality:
+  min_rows: 1000                 # ~4 years of trading days
+  max_missing_frac: 0.01         # >1% missing OHLCV cells => error
+  max_zero_volume_frac: 0.02     # >2% zero-volume days => warning
+  max_abs_daily_return: 0.25     # single-day |return| above this => suspicious (unadjusted split?)
+  max_gap_days: 10               # calendar-day gap between rows above this => warning
+  max_staleness_days: 7          # last row older than as_of - N days => error
+
+# Market reference series (not forecast targets; used later for regime labelling)
+benchmark: "^NSEI"
+
+# Forecast universe: liquid NSE large caps with full history since 2016,
+# spread across sectors. Deliberately small (quality over quantity).
+universe:
+  - {symbol: RELIANCE.NS,   sector: Energy}
+  - {symbol: ONGC.NS,       sector: Energy}
+  - {symbol: TCS.NS,        sector: IT}
+  - {symbol: INFY.NS,       sector: IT}
+  - {symbol: HDFCBANK.NS,   sector: Banks}
+  - {symbol: ICICIBANK.NS,  sector: Banks}
+  - {symbol: SBIN.NS,       sector: Banks}
+  - {symbol: AXISBANK.NS,   sector: Banks}
+  - {symbol: BAJFINANCE.NS, sector: Financials}
+  - {symbol: HINDUNILVR.NS, sector: FMCG}
+  - {symbol: ITC.NS,        sector: FMCG}
+  - {symbol: NESTLEIND.NS,  sector: FMCG}
+  - {symbol: MARUTI.NS,     sector: Auto}
+  - {symbol: SUNPHARMA.NS,  sector: Pharma}
+  - {symbol: TATASTEEL.NS,  sector: Metals}
+  - {symbol: BHARTIARTL.NS, sector: Telecom}
+  - {symbol: LT.NS,         sector: Infrastructure}
+  - {symbol: ULTRACEMCO.NS, sector: Cement}
+  - {symbol: TITAN.NS,      sector: Consumer}
+  - {symbol: NTPC.NS,       sector: Power}

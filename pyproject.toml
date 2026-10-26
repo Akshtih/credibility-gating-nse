@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-credibility"
+version = "0.1.0"
+description = "Credibility gating for stock forecasts on Indian markets (NSE)"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas",
+    "numpy",
+    "pyarrow",
+    "yfinance",
+    "pyyaml",
+    "statsmodels",
+    "prophet",
+    "xgboost",
+    "scikit-learn",
+    "matplotlib",
+    "flask",
+    "arch",
+    "scipy",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+serve = ["gunicorn"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+credibility = ["web/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

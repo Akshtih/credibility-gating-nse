@@ -1,0 +1,7 @@
+task,model,horizon,skill,dm_p_adj,coverage,n_origins,beats_benchmark,calibrated,enough_evidence,promote,reason
+volatility,ewma,5,0.11595834472984134,1.3647432805028732e-08,0.8112745098039216,122,True,True,True,True,passes all checks
+volatility,garch,5,0.11988760135825871,0.04667708289410537,0.7955882352941176,122,True,True,True,True,passes all checks
+volatility,har,5,-0.014061695954561637,1.0,0.7897058823529411,122,False,True,True,False,"does not beat hist_vol (skill=-0.0141, adj p=1.000)"
+volatility,ewma,21,0.15049494710081524,0.0006039493182209788,0.8270408163265306,120,True,True,True,True,passes all checks
+volatility,garch,21,0.14760571389004318,0.17060671792172263,0.7765306122448979,120,False,True,True,False,"does not beat hist_vol (skill=+0.1476, adj p=0.171)"
+volatility,har,21,-0.394505483833544,1.0,0.7612244897959184,120,False,True,True,False,"does not beat hist_vol (skill=-0.3945, adj p=1.000)"

@@ -1,0 +1,54 @@
+{
+  "calibration_runs": [
+    "ret_dev"
+  ],
+  "config_sha256": {
+    "data.yaml": "64c86cbb230ad5dcbe7814cc2aa535341111a441ff03540b93066b32788b070a",
+    "eval.yaml": "8703b756cc841a38db6123c1971bbaab73b4904159eca1530a4f2c674df8e9a3"
+  },
+  "conformal_config": {
+    "alpha": 0.2,
+    "cal_window": 60,
+    "gamma": 0.02,
+    "min_cal": 20
+  },
+  "created_utc": "2026-10-04T12:31:46+00:00",
+  "dev_run": "ret_dev",
+  "gate_config": {
+    "alpha": 0.05,
+    "coverage_nominal": 0.8,
+    "coverage_tol": 0.05,
+    "interval_method": "aci",
+    "min_origins": 60,
+    "min_skill": 0.0
+  },
+  "git_commit": "unversioned",
+  "horizon": 1,
+  "id": "bed3c19d12fb",
+  "metrics": {
+    "coverage": 0.8274509803921568,
+    "dm_p_adj": 1.0,
+    "n_origins": 122,
+    "skill": -0.07091716402141213
+  },
+  "model": "xgboost",
+  "params": {
+    "horizons": [
+      1,
+      5,
+      21
+    ],
+    "learning_rate": 0.03,
+    "max_depth": 3,
+    "min_child_weight": 20.0,
+    "n_estimators": 200,
+    "seed": 0,
+    "subsample": 0.8,
+    "window": 1000
+  },
+  "reason": "does not beat naive (skill=-0.0709, adj p=1.000)",
+  "role": "candidate_rejected",
+  "snapshot": "nse_v1",
+  "snapshot_manifest_sha256": "e6b73fd905166714f9d6e8e7100c8de06ae191c786769702536137e451681fee",
+  "task": "return"
+}

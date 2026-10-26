@@ -1,0 +1,430 @@
+{
+  "config": {
+    "as_of_date": "2026-09-30",
+    "auto_adjust": true,
+    "benchmark": "^NSEI",
+    "quality": {
+      "max_abs_daily_return": 0.25,
+      "max_gap_days": 10,
+      "max_missing_frac": 0.01,
+      "max_staleness_days": 7,
+      "max_zero_volume_frac": 0.02,
+      "min_rows": 1000
+    },
+    "start_date": "2016-01-01",
+    "universe": [
+      {
+        "sector": "Energy",
+        "symbol": "RELIANCE.NS"
+      },
+      {
+        "sector": "Energy",
+        "symbol": "ONGC.NS"
+      },
+      {
+        "sector": "IT",
+        "symbol": "TCS.NS"
+      },
+      {
+        "sector": "IT",
+        "symbol": "INFY.NS"
+      },
+      {
+        "sector": "Banks",
+        "symbol": "HDFCBANK.NS"
+      },
+      {
+        "sector": "Banks",
+        "symbol": "ICICIBANK.NS"
+      },
+      {
+        "sector": "Banks",
+        "symbol": "SBIN.NS"
+      },
+      {
+        "sector": "Banks",
+        "symbol": "AXISBANK.NS"
+      },
+      {
+        "sector": "Financials",
+        "symbol": "BAJFINANCE.NS"
+      },
+      {
+        "sector": "FMCG",
+        "symbol": "HINDUNILVR.NS"
+      },
+      {
+        "sector": "FMCG",
+        "symbol": "ITC.NS"
+      },
+      {
+        "sector": "FMCG",
+        "symbol": "NESTLEIND.NS"
+      },
+      {
+        "sector": "Auto",
+        "symbol": "MARUTI.NS"
+      },
+      {
+        "sector": "Pharma",
+        "symbol": "SUNPHARMA.NS"
+      },
+      {
+        "sector": "Metals",
+        "symbol": "TATASTEEL.NS"
+      },
+      {
+        "sector": "Telecom",
+        "symbol": "BHARTIARTL.NS"
+      },
+      {
+        "sector": "Infrastructure",
+        "symbol": "LT.NS"
+      },
+      {
+        "sector": "Cement",
+        "symbol": "ULTRACEMCO.NS"
+      },
+      {
+        "sector": "Consumer",
+        "symbol": "TITAN.NS"
+      },
+      {
+        "sector": "Power",
+        "symbol": "NTPC.NS"
+      }
+    ]
+  },
+  "created_utc": "2026-10-04T11:58:17+00:00",
+  "failed": {},
+  "name": "nse_v1",
+  "symbols": {
+    "AXISBANK.NS": {
+      "end": "2026-09-30",
+      "file": "AXISBANK.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [
+          {
+            "check": "extreme_returns",
+            "detail": "1 days with |return| > 25% (possible unadjusted split)",
+            "severity": "warning"
+          }
+        ],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "AXISBANK.NS"
+      },
+      "rows": 2659,
+      "sha256": "ac85a6f1b00189aa69ee8ef1134d35af14aad0c9a367b86eae2b60a75a6e0636",
+      "start": "2016-01-01"
+    },
+    "BAJFINANCE.NS": {
+      "end": "2026-09-30",
+      "file": "BAJFINANCE.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "BAJFINANCE.NS"
+      },
+      "rows": 2659,
+      "sha256": "71a30017b2c5f47417e54c42278d9dd51fe7523f00654c791c3c59cdd7b250c2",
+      "start": "2016-01-01"
+    },
+    "BHARTIARTL.NS": {
+      "end": "2026-09-30",
+      "file": "BHARTIARTL.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "BHARTIARTL.NS"
+      },
+      "rows": 2659,
+      "sha256": "3811142d6b667f66f48d0908597d7d29546c1a15857e8da4cfbf52e40640ef13",
+      "start": "2016-01-01"
+    },
+    "HDFCBANK.NS": {
+      "end": "2026-09-30",
+      "file": "HDFCBANK.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "HDFCBANK.NS"
+      },
+      "rows": 2659,
+      "sha256": "726b5824dfbc407ce3255a8fa063374e66d0e6fa060d0d0fb557d52b77825ea8",
+      "start": "2016-01-01"
+    },
+    "HINDUNILVR.NS": {
+      "end": "2026-09-30",
+      "file": "HINDUNILVR.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "HINDUNILVR.NS"
+      },
+      "rows": 2659,
+      "sha256": "a193403b327717e3df8cbc75318ca0df7ca0caae8d9344cacfe4139f1ba76f56",
+      "start": "2016-01-01"
+    },
+    "ICICIBANK.NS": {
+      "end": "2026-09-30",
+      "file": "ICICIBANK.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "ICICIBANK.NS"
+      },
+      "rows": 2659,
+      "sha256": "6b88dad3287a84458818e2060acbe1c60675ad12f992e15391ffa2b869153720",
+      "start": "2016-01-01"
+    },
+    "INFY.NS": {
+      "end": "2026-09-30",
+      "file": "INFY.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "INFY.NS"
+      },
+      "rows": 2659,
+      "sha256": "a57b82e34cb05e72851b1b672c89741a14a50d91a7a571f39fb015c6f5bdd032",
+      "start": "2016-01-01"
+    },
+    "ITC.NS": {
+      "end": "2026-09-30",
+      "file": "ITC.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "ITC.NS"
+      },
+      "rows": 2659,
+      "sha256": "df07b15ec7e3284c2eb85267187f78b6eca7ed307fc14e14cfc34799852fe1c7",
+      "start": "2016-01-01"
+    },
+    "LT.NS": {
+      "end": "2026-09-30",
+      "file": "LT.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "LT.NS"
+      },
+      "rows": 2659,
+      "sha256": "fc018d97e6db3a098de5d8781cd009f4d1814bf4d242e33e98f135c9bf507a08",
+      "start": "2016-01-01"
+    },
+    "MARUTI.NS": {
+      "end": "2026-09-30",
+      "file": "MARUTI.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "MARUTI.NS"
+      },
+      "rows": 2659,
+      "sha256": "f2d7a8ea8d9795b08d0819a529ed0adef00d40de0f7a4441060706810d18f22d",
+      "start": "2016-01-01"
+    },
+    "NESTLEIND.NS": {
+      "end": "2026-09-30",
+      "file": "NESTLEIND.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "NESTLEIND.NS"
+      },
+      "rows": 2659,
+      "sha256": "9a1e96974fac923f4fdf96dd0ace335bf1a4135502a6d4d8db9019705233b88b",
+      "start": "2016-01-01"
+    },
+    "NTPC.NS": {
+      "end": "2026-09-30",
+      "file": "NTPC.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "NTPC.NS"
+      },
+      "rows": 2659,
+      "sha256": "65b83ddf045d6dabfc83eab05e0c2e375517a7a846401589064899b4f5e37f76",
+      "start": "2016-01-01"
+    },
+    "ONGC.NS": {
+      "end": "2026-09-30",
+      "file": "ONGC.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "ONGC.NS"
+      },
+      "rows": 2659,
+      "sha256": "606519b2f24d83d0a48791c6d6ed5b6d07835310bc54aed590aa2959a402460a",
+      "start": "2016-01-01"
+    },
+    "RELIANCE.NS": {
+      "end": "2026-09-30",
+      "file": "RELIANCE.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "RELIANCE.NS"
+      },
+      "rows": 2659,
+      "sha256": "ac927db97a546244715fc9ebba8eda6090a97b636e23031b92abfe892e1aa911",
+      "start": "2016-01-01"
+    },
+    "SBIN.NS": {
+      "end": "2026-09-30",
+      "file": "SBIN.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [
+          {
+            "check": "extreme_returns",
+            "detail": "1 days with |return| > 25% (possible unadjusted split)",
+            "severity": "warning"
+          }
+        ],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "SBIN.NS"
+      },
+      "rows": 2659,
+      "sha256": "7307898b1096b7e9f3102b7b61b47723bbf0083982c9f2ed14c5a42551684aa9",
+      "start": "2016-01-01"
+    },
+    "SUNPHARMA.NS": {
+      "end": "2026-09-30",
+      "file": "SUNPHARMA.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "SUNPHARMA.NS"
+      },
+      "rows": 2659,
+      "sha256": "abafe3ffe3ad8d5d2d220a620c129671e25d7c3566ba30dd80e762dc9d35323e",
+      "start": "2016-01-01"
+    },
+    "TATASTEEL.NS": {
+      "end": "2026-09-30",
+      "file": "TATASTEEL.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "TATASTEEL.NS"
+      },
+      "rows": 2659,
+      "sha256": "7178dca43a6302fcc6525c57226103e72b87560b9b1d102d03a6b24b9784bfea",
+      "start": "2016-01-01"
+    },
+    "TCS.NS": {
+      "end": "2026-09-30",
+      "file": "TCS.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "TCS.NS"
+      },
+      "rows": 2659,
+      "sha256": "a87a07577d285364c658dd807789ccb416e59ebb4060b69f0a631524b092c486",
+      "start": "2016-01-01"
+    },
+    "TITAN.NS": {
+      "end": "2026-09-30",
+      "file": "TITAN.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "TITAN.NS"
+      },
+      "rows": 2659,
+      "sha256": "dea125f78f2b9a427a3e02577b121275ec8c5bcad68e865453a1ae2848afef5d",
+      "start": "2016-01-01"
+    },
+    "ULTRACEMCO.NS": {
+      "end": "2026-09-30",
+      "file": "ULTRACEMCO.NS.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2659,
+        "passed": true,
+        "start": "2016-01-01",
+        "symbol": "ULTRACEMCO.NS"
+      },
+      "rows": 2659,
+      "sha256": "2c47eaaff63fe28a7908e3524c2b1b652c115dc2b0c32d580b4b985520990ca4",
+      "start": "2016-01-01"
+    },
+    "^NSEI": {
+      "end": "2026-09-30",
+      "file": "_IDX_NSEI.parquet",
+      "quality": {
+        "end": "2026-09-30",
+        "issues": [],
+        "n_rows": 2648,
+        "passed": true,
+        "start": "2016-01-04",
+        "symbol": "^NSEI"
+      },
+      "rows": 2648,
+      "sha256": "babb3309b43c4c0fc822cb2e4df283e612d75f18c4886d125a6dfccdb84ee4eb",
+      "start": "2016-01-04"
+    }
+  }
+}

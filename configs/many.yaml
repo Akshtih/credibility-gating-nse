@@ -1,0 +1,38 @@
+# PRE-REGISTERED protocol for the many-candidates experiment.
+# Written and committed to disk BEFORE any new candidate was built or evaluated. Do not edit after running;
+# if a change is unavoidable, record it in the paper. Its SHA-256 is stored with every output.
+#
+# Question: when a practitioner tries MANY candidate models, does the credibility gate (Holm-corrected DM test)
+# promote fewer models that later fail than simpler selection rules do?
+#
+# Data: DEVELOPMENT predictions only (results/ret_dev, results/vol_dev). The holdout (2024-01-01 onward) is NOT used.
+# Design: each development period is split at `split` into a SELECTION part (origins whose outcome is realised before
+# `split`) and a VALIDATION part (origins on/after `split`, outcomes before 2024-01-01). Rules choose candidates on
+# SELECTION only; their candidates are then judged on VALIDATION. All three splits are reported (no cherry-picking).
+
+splits: ["2021-07-01", "2022-01-01", "2022-07-01"]
+alpha: 0.05
+
+rules:
+  gate:      "skill_S > 0 and Holm-adjusted one-sided DM p_S < alpha   (family = all candidate x horizon cells of the task)"
+  raw_dm:    "skill_S > 0 and unadjusted one-sided DM p_S < alpha"
+  simple:    "skill_S > 0"
+  best_only: "per horizon, the single candidate with the highest skill_S, if skill_S > 0"
+
+outcomes:
+  primary:   "a promoted cell FAILS if its validation skill <= 0"
+  secondary: "a promoted cell HOLDS SIGNIFICANTLY if validation skill > 0 and Holm-adjusted p_V < alpha"
+
+candidates:
+  return:                      # benchmark: naive (predicts 0); horizons 1, 5, 21
+    original: [arima, prophet, prophet_anchored, xgboost]
+    drift_lookback: [21, 63, 126, 252, 504]           # pred = h * mean daily log-return over the last k days
+    momentum: {lookback: [21, 63, 126, 252], scale: [0.05, 0.10]}   # pred = scale * (past k-day log-return)
+    reversal: {lookback: [5, 21], scale: [0.05]}      # pred = -scale * (past k-day log-return)
+    shrunk: {base: [arima, xgboost, prophet_anchored], factor: [0.1, 0.25, 0.5, 0.75]}   # factor * stored prediction
+  volatility:                  # benchmark: hist_vol (21-day); horizons 5, 21
+    original: [ewma, garch, har]
+    ewma_lambda: [0.90, 0.92, 0.96, 0.97, 0.98, 0.99]
+    hist_lookback: [10, 42, 63, 126]
+    blend: {ewma_garch_weight_on_ewma: [0.25, 0.5, 0.75], ewma_har: [0.5], garch_har: [0.5]}
+    scaled: {base: [ewma, garch], factor: [0.9, 1.1]}

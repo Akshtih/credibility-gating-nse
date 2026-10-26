@@ -1,0 +1,44 @@
+{
+  "calibration_runs": [
+    "vol_dev"
+  ],
+  "config_sha256": {
+    "data.yaml": "64c86cbb230ad5dcbe7814cc2aa535341111a441ff03540b93066b32788b070a",
+    "eval.yaml": "8703b756cc841a38db6123c1971bbaab73b4904159eca1530a4f2c674df8e9a3"
+  },
+  "conformal_config": {
+    "alpha": 0.2,
+    "cal_window": 60,
+    "gamma": 0.02,
+    "min_cal": 20
+  },
+  "created_utc": "2026-10-04T12:31:47+00:00",
+  "dev_run": "vol_dev",
+  "gate_config": {
+    "alpha": 0.05,
+    "coverage_nominal": 0.8,
+    "coverage_tol": 0.05,
+    "interval_method": "aci",
+    "min_origins": 60,
+    "min_skill": 0.0
+  },
+  "git_commit": "unversioned",
+  "horizon": 21,
+  "id": "b5673834ec41",
+  "metrics": {
+    "coverage": 0.8270408163265306,
+    "dm_p_adj": 0.0006039493182209788,
+    "n_origins": "120",
+    "skill": 0.15049494710081524
+  },
+  "model": "ewma",
+  "params": {
+    "lam": 0.94,
+    "window": 756
+  },
+  "reason": "highest-skill promoted model",
+  "role": "champion",
+  "snapshot": "nse_v1",
+  "snapshot_manifest_sha256": "e6b73fd905166714f9d6e8e7100c8de06ae191c786769702536137e451681fee",
+  "task": "volatility"
+}

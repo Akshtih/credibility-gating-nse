@@ -1,0 +1,14 @@
+\begin{tabular}{clrrrrrr}
+\toprule
+ & & \multicolumn{4}{c}{Development} & \multicolumn{2}{c}{Holdout} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-8}
+$h$ & Model & Full & Ex-COVID & Ex-top-5\% & SD loss & Full & SD loss \\
+\midrule
+5 & EWMA & +0.116 & +0.132 & +0.116 & +0.065 & +0.137 & +0.098 \\
+5 & GARCH & +0.120 & +0.173 & +0.140 & +0.060 & +0.254 & +0.144 \\
+5 & HAR & -0.014 & +0.146 & +0.092 & -0.058 & +0.274 & +0.140 \\
+21 & EWMA & +0.150 & +0.218 & +0.228 & +0.090 & +0.204 & +0.180 \\
+21 & GARCH & +0.148 & +0.267 & +0.281 & +0.103 & +0.388 & +0.296 \\
+21 & HAR & -0.395 & +0.166 & +0.099 & -0.094 & +0.423 & +0.318 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,20 @@
+{
+  "protocol_sha256": "07278ee0899a9c051caadbdec4fe4c623bc729b72c21d9da7370bc1bc5b96800",
+  "tasks": {
+    "return": {
+      "all_pred_finite": true,
+      "every_candidate_covers_every_key": true,
+      "n_new_candidates": 27,
+      "n_original_candidates": 4,
+      "max_target_date": "2023-12-22"
+    },
+    "volatility": {
+      "all_pred_finite": true,
+      "every_candidate_covers_every_key": true,
+      "n_new_candidates": 19,
+      "n_original_candidates": 3,
+      "max_target_date": "2023-12-22",
+      "all_pred_positive": true
+    }
+  }
+}

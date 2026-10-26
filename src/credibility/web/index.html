@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forecast Credibility</title>
+<style>
+  :root { --bg:#0f1419; --card:#18202a; --line:#2a3644; --fg:#e6edf3; --muted:#8b98a5;
+          --good:#2ea043; --warn:#d29922; --bad:#da3633; --info:#58a6ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+  header { padding:18px 24px; border-bottom:1px solid var(--line); }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+  main { max-width:1000px; margin:0 auto; padding:20px 24px 60px; }
+  .controls { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+  select, button { background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:6px;
+                   padding:8px 12px; font-size:14px; }
+  button { background:var(--info); color:#04121f; border:0; font-weight:600; cursor:pointer; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid[hidden] { display:none; }
+  @media (max-width:760px) { .grid { grid-template-columns:1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+  .badge { display:inline-block; padding:4px 12px; border-radius:999px; font-weight:700; font-size:14px; }
+  .TRUSTED { background:var(--good); color:#04140a; } .CAUTION { background:var(--warn); color:#1a1200; }
+  .NOT_BETTER, .BENCHMARK_ONLY { background:var(--bad); color:#fff; }
+  .big { font-size:28px; font-weight:700; } .muted { color:var(--muted); font-size:13px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:600; }
+  .yes { color:var(--good); } .no { color:var(--bad); }
+  svg { width:100%; height:200px; } .full { grid-column:1 / -1; }
+  .err { color:var(--bad); }
+  footer { color:var(--muted); font-size:12px; margin-top:24px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Forecast Credibility</h1>
+  <p>NSE stocks. Every forecast is shown with the evidence on whether the model deserves trust &mdash; not investment advice.</p>
+</header>
+<main>
+  <div class="controls">
+    <select id="symbol"></select>
+    <select id="task"><option value="return">Price return</option><option value="volatility">Volatility</option></select>
+    <select id="horizon"></select>
+    <button id="go">Check forecast</button>
+  </div>
+  <div id="msg" class="muted"></div>
+  <div class="grid" id="out" hidden>
+    <div class="card"><h2>Verdict</h2><div id="verdict"></div><p id="vtext" class="muted"></p></div>
+    <div class="card"><h2>Forecast</h2><div id="fc"></div></div>
+    <div class="card full"><h2>Recent prices and forecast range</h2><svg id="chart" viewBox="0 0 800 200" preserveAspectRatio="none"></svg></div>
+    <div class="card full"><h2>Why this verdict (development-period evidence)</h2><div id="why"></div></div>
+    <div class="card full"><h2>All candidate models for this task and horizon</h2><div id="evidence"></div></div>
+  </div>
+  <footer>Decisions are made on a development period; a separate untouched holdout period is used to check them.
+  Intervals are adaptive-conformal with 80% nominal coverage.</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const pct = (x, d=2) => x == null ? "n/a" : (100*x).toFixed(d) + "%";
+const num = (x, d=3) => x == null ? "n/a" : Number(x).toFixed(d);
+let horizons = {};
+
+async function j(url) { const r = await fetch(url); const b = await r.json(); if (!r.ok) throw new Error(b.error || r.statusText); return b; }
+
+async function init() {
+  const u = await j("/api/universe");
+  horizons = u.tasks;
+  $("symbol").innerHTML = u.symbols.map(s => `<option value="${s.symbol}">${s.symbol} &middot; ${s.sector}</option>`).join("");
+  setHorizons();
+  $("task").onchange = setHorizons;
+  $("go").onclick = run;
+}
+function setHorizons() {
+  const hs = horizons[$("task").value];
+  $("horizon").innerHTML = hs.map(h => `<option value="${h}">${h} trading days</option>`).join("");
+}
+
+async function run() {
+  $("msg").textContent = "Loading..."; $("msg").className = "muted"; $("out").hidden = true;
+  const sym = $("symbol").value, task = $("task").value, h = $("horizon").value;
+  try {
+    const [f, hist, ev] = await Promise.all([
+      j(`/api/forecast?symbol=${sym}&task=${task}&horizon=${h}`), j(`/api/history?symbol=${sym}`), j(`/api/evidence?task=${task}`)]);
+    render(f, hist, ev, task, +h);
+    $("msg").textContent = ""; $("out").hidden = false;
+  } catch (e) { $("msg").textContent = e.message; $("msg").className = "err"; }
+}
+
+function render(f, hist, ev, task, h) {
+  $("verdict").innerHTML = `<span class="badge ${f.verdict}">${f.verdict.replace("_"," ")}</span>
+     <p class="muted">Served model: <b>${f.served_model}</b> (${f.role})</p>`;
+  $("vtext").textContent = f.verdict_text;
+  const [lo, hi] = f.interval_80;
+  if (task === "return") {
+    $("fc").innerHTML = `<div class="big">${num(f.forecast_price,2)}</div>
+      <div class="muted">last close ${num(f.last_close,2)} &middot; expected ${pct(Math.exp(f.forecast)-1)} in ${h} days</div>
+      <div>80% range: <b>${num(f.interval_price_80[0],2)}</b> &ndash; <b>${num(f.interval_price_80[1],2)}</b></div>`;
+  } else {
+    $("fc").innerHTML = `<div class="big">${pct(f.forecast_annualised_vol,1)}</div>
+      <div class="muted">expected annualised volatility over ${h} days</div>
+      <div>80% range: <b>${pct(f.interval_vol_80[0],1)}</b> &ndash; <b>${pct(f.interval_vol_80[1],1)}</b></div>`;
+  }
+  const e = f.evidence;
+  $("why").innerHTML = `<p>${e.reason}</p>
+     <table><tr><th>Skill vs benchmark</th><th>Adj. p-value</th><th>Interval coverage</th></tr>
+     <tr><td>${num(e.dev_skill,4)}</td><td>${num(e.dm_p_adj,4)}</td><td>${pct(e.coverage,1)}</td></tr></table>
+     <p class="muted">Skill &gt; 0 means better than the benchmark (${task==="return"?"\"price stays the same\"":"trailing 21-day volatility"}) on past data the model had not seen.</p>`;
+  const rows = ev.decisions.filter(d => d.horizon === h).map(d =>
+     `<tr><td>${d.model}</td><td>${num(d.skill,4)}</td><td>${num(d.dm_p_adj,3)}</td><td>${pct(d.coverage,1)}</td>
+      <td class="${d.promote?"yes":"no"}">${d.promote?"promoted":"rejected"}</td><td class="muted">${d.reason}</td></tr>`).join("");
+  $("evidence").innerHTML = `<table><tr><th>Model</th><th>Skill</th><th>Adj. p</th><th>Coverage</th><th>Gate</th><th>Reason</th></tr>${rows}</table>`;
+  chart(hist, f, task);
+}
+
+function chart(hist, f, task) {
+  const svg = $("chart"); const W = 800, H = 200, P = 8;
+  if (task !== "return") { svg.innerHTML = `<text x="10" y="30" fill="#8b98a5" font-size="14">Price chart shown for the return task.</text>`; return; }
+  const ys = hist.close.slice(), n = ys.length;
+  const lo = f.interval_price_80[0], hi = f.interval_price_80[1];
+  const all = ys.concat([lo, hi, f.forecast_price].filter(v => v != null));
+  const mn = Math.min(...all), mx = Math.max(...all), span = (mx - mn) || 1;
+  const X = i => P + (W - 2*P) * i / (n + 15), Y = v => H - P - (H - 2*P) * (v - mn) / span;
+  const pts = ys.map((v, i) => `${X(i)},${Y(v)}`).join(" ");
+  const xl = X(n - 1), xr = X(n + 12);
+  let s = `<polyline points="${pts}" fill="none" stroke="#58a6ff" stroke-width="1.6"/>`;
+  if (lo != null) s += `<polygon points="${xl},${Y(ys[n-1])} ${xr},${Y(hi)} ${xr},${Y(lo)}" fill="#d2992244" stroke="none"/>`;
+  s += `<line x1="${xl}" y1="${Y(ys[n-1])}" x2="${xr}" y2="${Y(f.forecast_price)}" stroke="#d29922" stroke-width="2" stroke-dasharray="4 3"/>`;
+  svg.innerHTML = s;
+}
+init();
+</script>
+</body>
+</html>

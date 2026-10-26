@@ -1,0 +1,47 @@
+{
+  "task": "return",
+  "period": "holdout",
+  "snapshot": "nse_v1",
+  "models": [
+    "naive",
+    "arima",
+    "prophet",
+    "prophet_anchored",
+    "xgboost"
+  ],
+  "benchmark": "naive",
+  "horizons": [
+    1,
+    5,
+    21
+  ],
+  "symbols": [
+    "AXISBANK.NS",
+    "BAJFINANCE.NS",
+    "BHARTIARTL.NS",
+    "HDFCBANK.NS",
+    "HINDUNILVR.NS",
+    "ICICIBANK.NS",
+    "INFY.NS",
+    "ITC.NS",
+    "LT.NS",
+    "MARUTI.NS",
+    "NESTLEIND.NS",
+    "NTPC.NS",
+    "ONGC.NS",
+    "RELIANCE.NS",
+    "SBIN.NS",
+    "SUNPHARMA.NS",
+    "TATASTEEL.NS",
+    "TCS.NS",
+    "TITAN.NS",
+    "ULTRACEMCO.NS"
+  ],
+  "origin_step": 10,
+  "min_train_rows": 756,
+  "holdout_start": "2024-01-01",
+  "max_origins": null,
+  "n_predictions": 20400,
+  "n_failures": 0,
+  "created_utc": "2026-10-04T12:36:42+00:00"
+}
