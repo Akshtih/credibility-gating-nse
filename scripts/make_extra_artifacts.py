@@ -147,12 +147,44 @@ def calibration_tables(cfg) -> None:
         + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n", encoding="utf-8")
 
 
+def coverage_audit(cfg) -> None:
+    """(1) How much does the unweighted mean over model-horizon groups differ from the fully pooled coverage?
+    (2) Like-for-like comparison on Prophet's OWN forecasts (native interval exists for Prophet only)."""
+    from credibility.uncertainty import ConformalConfig, build_intervals, coverage_table
+
+    conf = ConformalConfig()
+
+    def micro(iv, m, models=None):
+        v = iv[iv["split_lo"].notna() & iv["aci_lo"].notna()]
+        v = v[v["model"].isin(models)] if models else v
+        g = v[v[f"{m}_lo"].notna() & v[f"{m}_hi"].notna()]
+        return 100 * float(((g["actual"] >= g[f"{m}_lo"]) & (g["actual"] <= g[f"{m}_hi"])).mean())
+
+    worst = 0.0
+    for tname, dev_run, hold_run in (("return", "ret_dev", "ret_hold"), ("volatility", "vol_dev", "vol_hold")):
+        task = get_task(cfg, tname)
+        dev = pd.read_parquet(cfg.results_path / dev_run / "predictions.parquet")
+        hold = pd.read_parquet(cfg.results_path / hold_run / "predictions.parquet")
+        for label, iv in (("Dev", build_intervals(dev, task, ConformalConfig())),
+                          ("Hold", build_intervals(pd.concat([dev, hold], ignore_index=True), task, conf))):
+            if label == "Hold":
+                iv = iv[iv["origin_date"] >= pd.Timestamp(cfg.holdout_start)]
+            macro = coverage_table(iv, task, alpha=conf.alpha).groupby("method")["coverage"].mean() * 100
+            for m in macro.index:
+                worst = max(worst, abs(macro[m] - micro(iv, m)))
+            if tname == "return":
+                for m in ("native", "gauss", "split", "aci"):
+                    num(f"CalibProphet{m}{label}", f"{micro(iv, m, ['prophet']):.1f}")
+    num("CovMicroMacroMax", f"{worst:.1f}")
+
+
 def main() -> None:
     cfg = load_eval_config()
     robustness(cfg)
     size_table()
     lag_sensitivity(cfg)
     calibration_tables(cfg)
+    coverage_audit(cfg)
     if (cfg.results_path / "many_candidates" / "rules_summary.csv").exists():
         from make_many_artifacts import many_artifacts  # noqa: PLC0415  (added in the many-candidates phase)
         many_artifacts(cfg, OUT, num, f)

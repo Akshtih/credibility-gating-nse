@@ -11,7 +11,7 @@ import sys
 import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SKIP_DIRS = {".venv", "__pycache__", ".pytest_cache", ".git", "paper", "docs", ".github"}
+SKIP_DIRS = {".venv", "__pycache__", ".pytest_cache", ".git", "paper", "docs", ".github", "stock-credibility_reproducibility"}
 SKIP_FILES = {"paper_overleaf.zip", "stock-credibility_reproducibility.zip", "Dockerfile", ".dockerignore"}
 TEXT = (".py", ".md", ".yaml", ".yml", ".toml", ".txt", ".json", ".csv", ".html", ".tex")
 RISKY = re.compile(r"(C:\\\\Users|C:/Users|AppData|gsk_[A-Za-z0-9]{10,}|api[_-]?key\s*=\s*['\"][^'\"]+|password\s*=)", re.I)

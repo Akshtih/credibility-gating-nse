@@ -6,7 +6,7 @@ import pandas as pd
 from credibility.manycand import null_check
 
 RULES = ("gate", "raw_dm", "simple", "best_only")
-RULE_LABEL = {"gate": "Gate (Holm DM)", "raw_dm": "Unadjusted DM", "simple": "Positive skill", "best_only": "Best single cell"}
+RULE_LABEL = {"gate": "Holm-corrected DM", "raw_dm": "Unadjusted DM", "simple": "Positive skill", "best_only": "Best single cell"}
 TASK_LABEL = {"return": "Return", "volatility": "Volatility"}
 TASK_WORD = {"return": "Ret", "volatility": "Vol"}
 RULE_WORD = {"gate": "Gate", "raw_dm": "Raw", "simple": "Simple", "best_only": "Best"}

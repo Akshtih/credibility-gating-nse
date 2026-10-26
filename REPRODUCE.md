@@ -42,10 +42,12 @@ The evaluation protocol is in `configs/eval.yaml` (origin step 10 days, 756-day 
 ## 6. Robustness checks and the many-candidates experiment (added after the main study)
 ```bash
 python scripts/protect_check.py --verify               # original study files unchanged (SHA-256 baseline in protected_hashes.json)
-python scripts/make_extra_artifacts.py                 # robustness table + numbers_extra.tex (+ many-candidates table if results exist)
-python scripts/run_many_candidates.py build            # builds the extra candidates from the DEVELOPMENT runs only (minutes)
-python scripts/run_many_candidates.py evaluate         # applies the pre-registered rules on three splits
+python scripts/run_many_candidates.py build            # 1. builds the extra candidates from the DEVELOPMENT runs only (minutes)
+python scripts/run_many_candidates.py evaluate         # 2. applies the pre-specified rules on three splits
+python scripts/make_artifacts.py                       # 3. main tables, figures, numbers
+python scripts/make_extra_artifacts.py                 # 4. robustness, test-size, calibration breakdown, many-candidates table
 ```
+Steps 1-2 are optional if you only want to regenerate the paper artifacts from the stored `results/many_candidates/` files.
 `configs/many.yaml` is the protocol, written before any candidate was evaluated; its SHA-256 is stored in
 `results/many_candidates/rules_summary.csv`. These steps write only new files; the holdout is not read.
 `scripts/audit_checks.py` / `audit_checks2.py` are exploratory audits whose output is not used in the paper.
@@ -63,3 +65,9 @@ python scripts/run_many_candidates.py evaluate         # applies the pre-registe
 | Tests (leakage guards, purging, holdout lock, statistics, selection rules) | `tests/` (run `python -m pytest -q`) |
 | Check that the original study files are unchanged | `scripts/protect_check.py --verify` |
 | Many-candidates experiment | section 6 above; `scripts/run_many_candidates.py` |
+
+## 8. Rebuilding the zips
+```bash
+python scripts/make_package.py
+```
+Builds `stock-credibility_reproducibility.zip` and `paper_overleaf.zip` and scans them for personal paths and key-like text.
